@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "start:all": "node server.js & node workers/printerWorker.js",
+    "start:all": "concurrently \"node server.js\" \"node workers/printerWorker.js\"",
     "dev": "nodemon server.js",
     "worker": "node workers/printerWorker.js",
     "seed": "node seed.js",
@@ -17,6 +17,7 @@
   "dependencies": {
     "amqplib": "^2.0.1",
     "axios": "^1.19.0",
+    "concurrently": "^10.0.5",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
