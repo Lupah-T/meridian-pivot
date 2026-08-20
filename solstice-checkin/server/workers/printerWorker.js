@@ -24,10 +24,10 @@ async function startWorker() {
           const content = JSON.parse(msg.content.toString());
           console.log(`[Printer Worker] Received print request:`, content);
           
-          // Simulate printer hardware delay (2.5 seconds)
-          await new Promise(resolve => setTimeout(resolve, 2500));
+          // Simulate printer hardware delay (6 seconds as requested)
+          await new Promise(resolve => setTimeout(resolve, 6000));
           
-          console.log(`[Printer Worker] Printing completed for ${content.attendeeId}. Sending webhook...`);
+          console.log(`[Printer Worker] Printing completed for ${content.attendeeId}. Sending webhook to ${webhookUrl}...`);
           
           // Send webhook
           await axios.post(webhookUrl, {
@@ -42,9 +42,9 @@ async function startWorker() {
           channel.ack(msg);
         } catch (error) {
           console.error('[Printer Worker] Error processing message:', error.message);
-          // If webhook fails, we can NACK and requeue in a real app.
-          // For MVP, we will ack it or nack depending on preference. Nacking might cause infinite loop if webhook is down.
-          // Let's just nack without requeue, or ack it to not block.
+          if (error.response) {
+            console.error('[Printer Worker] Webhook failed with response:', error.response.data);
+          }
           // We'll ack so it doesn't block forever if backend is down.
           channel.ack(msg); 
         }

@@ -133,8 +133,11 @@ const CheckIn = () => {
       {status === 'PENDING' && (
         <div className="status-card pending">
           <Loader2 className="status-icon spinner" />
-          <div className="status-title pulse">Printing badge...</div>
-          <div className="status-desc">Please wait.</div>
+          <div className="status-title dynamic-dots">Printing Badge</div>
+          <div className="status-desc">Generating physical pass</div>
+          <div className="printer-animation-container">
+            <div className="printer-bar"></div>
+          </div>
         </div>
       )}
 
