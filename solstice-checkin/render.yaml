@@ -1,11 +1,12 @@
 services:
-  # 1. Express API Backend
+  # 1. Express API Backend & Worker (Combined to use Free Tier)
   - type: web
     name: solstice-api
     env: node
-    rootDir: server
+    plan: free
+    rootDir: solstice-checkin/server
     buildCommand: npm install
-    startCommand: npm run start
+    startCommand: npm run start:all
     envVars:
       - key: PORT
         value: 5000
@@ -13,20 +14,5 @@ services:
         sync: false # Set this in Render dashboard
       - key: RABBITMQ_URL
         sync: false # Set this in Render dashboard
-      - key: WEBHOOK_URL
-        value: https://solstice-api.onrender.com/webhooks/print-complete
-
-  # 2. Printer Worker
-  - type: worker
-    name: solstice-printer-worker
-    env: node
-    rootDir: server
-    buildCommand: npm install
-    startCommand: npm run worker
-    envVars:
-      - key: MONGODB_URI
-        sync: false # Set this in Render dashboard (same as above)
-      - key: RABBITMQ_URL
-        sync: false # Set this in Render dashboard (same as above)
       - key: WEBHOOK_URL
         value: https://solstice-api.onrender.com/webhooks/print-complete

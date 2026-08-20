@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
+    "start:all": "node server.js & node workers/printerWorker.js",
     "dev": "nodemon server.js",
     "worker": "node workers/printerWorker.js",
     "seed": "node seed.js",
