@@ -53,7 +53,8 @@ async function startWorker() {
 
   } catch (error) {
     console.error('[Printer Worker] Failed to start:', error);
-    process.exit(1);
+    // Don't exit(1), keep process alive so Render deployment completes
+    setInterval(() => {}, 1000 * 60 * 60); // Keep alive indefinitely
   }
 }
 

@@ -10,7 +10,7 @@ async function connectRabbitMQ() {
     console.log('Connected to RabbitMQ and asserted queue: print_requests');
   } catch (error) {
     console.error('Failed to connect to RabbitMQ', error);
-    process.exit(1);
+    // Don't exit, just let it fail gracefully
   }
 }
 

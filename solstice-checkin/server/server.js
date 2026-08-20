@@ -25,8 +25,12 @@ async function startServer() {
       console.log(`Server listening on port ${PORT}`);
     });
   } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1);
+    console.error('Failed to start database or RabbitMQ:', error);
+    // DO NOT process.exit(1) here! We want the server to still listen on PORT
+    // so Render's deployment succeeds, allowing the user to set Env Vars later.
+    app.listen(PORT, () => {
+      console.log(`Server listening on port ${PORT} (Running without DB/RabbitMQ)`);
+    });
   }
 }
 
