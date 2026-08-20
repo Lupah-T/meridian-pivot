@@ -14,5 +14,3 @@ services:
         sync: false # Set this in Render dashboard
       - key: RABBITMQ_URL
         sync: false # Set this in Render dashboard
-      - key: WEBHOOK_URL
-        value: https://solstice-api.onrender.com/webhooks/print-complete

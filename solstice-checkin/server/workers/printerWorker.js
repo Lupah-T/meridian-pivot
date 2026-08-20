@@ -5,7 +5,10 @@ require('dotenv').config({ path: '../.env' }); // Adjust relative path based on 
 async function startWorker() {
   try {
     const rabbitUrl = process.env.RABBITMQ_URL || 'amqp://localhost:5672';
-    const webhookUrl = process.env.WEBHOOK_URL || 'http://localhost:5000/webhooks/print-complete';
+    // Automatically detect Render's live URL, otherwise fallback to local/env
+    const webhookUrl = process.env.RENDER_EXTERNAL_URL 
+      ? `${process.env.RENDER_EXTERNAL_URL}/webhooks/print-complete`
+      : (process.env.WEBHOOK_URL || 'http://localhost:5000/webhooks/print-complete');
 
     console.log(`[Printer Worker] Connecting to RabbitMQ at ${rabbitUrl}...`);
     const connection = await amqp.connect(rabbitUrl);
