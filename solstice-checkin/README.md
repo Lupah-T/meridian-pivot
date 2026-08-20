@@ -94,3 +94,25 @@ This project is a minimal viable product (MVP) for the Solstice Events Co. badge
 4. **Printer Worker Consumes** -> Worker reads from RabbitMQ queue, simulates a 2.5s print delay, and fires a POST to `/webhooks/print-complete`.
 5. **Webhook Updates DB** -> Validates `jobId` to ensure it's not stale, then sets status to `CHECKED_IN`.
 6. **Frontend Notified** -> The polling detects `CHECKED_IN` and updates the UI.
+
+## Cloud Deployment (Render & Vercel)
+
+This repository is fully configured for a free-tier deployment using **Render** (Backend) and **Vercel** (Frontend).
+
+### 1. Backend (Render)
+We run both the Express API and the Printer Worker on a single Render Web Service to stay within the free tier.
+
+1. Create a free **CloudAMQP** (Little Lemur) instance for your managed RabbitMQ.
+2. In your Render Dashboard, select **New > Blueprint**.
+3. Connect your GitHub repository.
+4. When prompted, ensure the **Blueprint Path** is set to `solstice-checkin/render.yaml`.
+5. Enter your `MONGODB_URI` (Atlas) and `RABBITMQ_URL` (CloudAMQP).
+6. Render will deploy the API and Worker concurrently. Copy your public Render API URL.
+
+### 2. Frontend (Vercel)
+1. In your Vercel Dashboard, select **Add New > Project** and import the repository.
+2. Under "Root Directory", click Edit and choose **`client`** (Important!).
+3. Under "Environment Variables", add:
+   - **Name**: `VITE_API_URL`
+   - **Value**: `https://your-render-api-url.onrender.com/api` (Use the URL generated from Render).
+4. Deploy the frontend! The `vercel.json` will automatically handle routing.
